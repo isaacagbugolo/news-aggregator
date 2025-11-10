@@ -1,59 +1,98 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 📰 Laravel News Aggregator
 
-## About Laravel
+A modern Laravel-based **News Aggregation Platform** that automatically fetches, normalizes, and displays articles from multiple external sources — including **NewsAPI**, **The Guardian**, and **The New York Times (NYT)**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project demonstrates strong Laravel backend architecture — integrating external APIs, data normalization, database design, and RESTful endpoints for frontend consumption.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+It includes:
+- Automated news fetching from 3 major APIs.
+- Normalized data structure with **Authors**, **Categories**, and **Sources** tables.
+- Search and filter API endpoints.
+- Minimal Blade front-end to preview recent articles.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🧱 Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+✅ Fetches articles from:
+- [NewsAPI.org](https://newsapi.org)
+- [The Guardian Open Platform](https://open-platform.theguardian.com/)
+- [The New York Times API](https://developer.nytimes.com/)
 
-## Laravel Sponsors
+✅ Normalized database:
+- `articles` table linked with `authors`, `categories`, and `sources`.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+✅ API Endpoints:
+- `GET /api/v1/articles` → fetch all or search by keyword.
+- `GET /api/v1/articles/{id}` → get a single article.
+- `GET /api/v1/sources` → list all available news sources.
 
-### Premium Partners
+✅ Optional Authenticated Routes:
+- `GET /api/v1/me/preferences`
+- `POST /api/v1/me/preferences`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+✅ Simple Blade UI:
+- Displays the latest fetched articles on `welcome.blade.php`.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🧩 Tech Stack
 
-## Code of Conduct
+- **Backend:** Laravel 12.x (PHP 8.2)
+- **Database:** MySQL
+- **HTTP Client:** Laravel HTTP Facade
+- **Auth:** Laravel Sanctum
+- **Environment:** XAMPP (Localhost)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## ⚙️ Setup Instructions
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/isaacagbugolo/news-aggregator.git
+cd news-aggregator
 
-## License
+2️⃣ Install dependencies
+composer install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3️⃣ Configure environment
+Duplicate .env.example → .env and update:
+APP_NAME="News Aggregator"
+APP_URL=http://localhost/news-aggregator/public
+
+NEWSAPI_KEY=your_newsapi_key_here
+GUARDIAN_API_KEY=your_guardian_key_here
+NYT_KEY=your_nyt_key_here
+
+php artisan key:generate
+php artisan migrate
+php artisan news:fetch-all
+
+6️⃣ Serve locally
+php artisan serve
+
+Then visit:
+http://localhost:8000
+
+or if you’re using XAMPP:
+http://localhost/news-aggregator/public
+
+🌐 API Examples
+| Endpoint                                | Method | Description                        |
+| --------------------------------------- | ------ | ---------------------------------- |
+| `/api/v1/articles`                      | GET    | List all or search by `?q=keyword` |
+| `/api/v1/articles/{id}`                 | GET    | Get article details                |
+| `/api/v1/sources`                       | GET    | List all sources                   |
+| `/api/v1/articles?category=Technology`  | GET    | Filter by category                 |
+| `/api/v1/articles?sources=nyt,guardian` | GET    | Filter by source                   |
+
+👨‍💻 Author
+
+Isaac Agbugolo
+💼 Laravel Developer
+🌐 LinkedIn
